@@ -1,0 +1,72 @@
+services:
+  quiz-service:
+    build: ./backend/quiz-service
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/authdb
+      - JWT_SECRET=supersecretkey
+      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - mongo
+    networks:
+      - quiznet
+
+  auth-service:
+    build: ./backend/auth-service
+    ports:
+      - "5003:5003"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/authdb
+      - JWT_SECRET=supersecretkey
+      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - mongo
+    networks:
+      - quiznet
+
+  user-service:
+    build: ./backend/user-service
+    ports:
+      - "5002:5002"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/authdb
+      - JWT_SECRET=supersecretkey
+      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - mongo
+    networks:
+      - quiznet
+
+  stats-service:
+    build: ./backend/stats-service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/authdb
+      - JWT_SECRET=supersecretkey
+      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
+      - GOOGLE_CLIENT_SECRET=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
+    depends_on:
+      - mongo
+    networks:
+      - quiznet
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - quiznet
+
+networks:
+  quiznet:
+
+
+volumes:
+  mongo_data:

@@ -1,6 +1,6 @@
 const fetch = require('node-fetch');
 const AUTH_SERVICE_URL =
-  process.env.AUTH_SERVICE_URL || 'http://localhost:5003';
+  process.env.AUTH_SERVICE_URL || 'http://auth-service:5003';
 
 module.exports = async function auth(req, res, next) {
   const authHeader = req.headers.authorization;

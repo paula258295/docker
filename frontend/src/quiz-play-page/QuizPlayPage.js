@@ -16,8 +16,13 @@ export default function QuizPlayPage({ onStatsUpdate }) {
 
   useEffect(() => {
     let isMounted = true;
+    const token = localStorage.getItem("token");
     Promise.all([
-      fetch(`http://localhost:3001/api/quiz/${quizId}`).then(res => res.json()),
+      // fetch(`http://localhost:3001/api/quiz/${quizId}`)
+      fetch(`http://localhost:3001/api/quiz/${quizId}`, {
+        headers: token ? { Authorization: "Bearer " + token } : {}
+      })
+        .then(res => res.json()),
       fetch(`http://localhost:3001/api/question?quiz=${quizId}`).then(res => res.json())
     ]).then(([quizData, questionsData]) => {
       if (isMounted) {

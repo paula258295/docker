@@ -75,14 +75,14 @@ exports.finishSession = async (req, res, next) => {
     session.score = score;
     await session.save();
 
-    await fetch(`http://localhost:5002/api/user/${req.user.userId}/score`, {
+    await fetch(`http://user-service:5002/api/user/${req.user.userId}/score`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ score }),
     });
 
     const response = await fetch(
-      `http://localhost:5002/api/user/${req.user.userId}`,
+      `http://user-service:5002/api/user/${req.user.userId}`,
     );
     const user = await response.json();
     const quizzesCompleted = user.quizzesCompleted || 0;
@@ -110,7 +110,7 @@ exports.finishSession = async (req, res, next) => {
 
     if (newBadges.length > 0) {
       await fetch(
-        `http://localhost:5002/api/user/${req.user.userId}/badges`,
+        `http://user-service:5002/api/user/${req.user.userId}/badges`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
