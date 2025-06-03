@@ -6,90 +6,80 @@ const app = express();
 app.use(
   '/api/auth',
   createProxyMiddleware({
-    target: 'http://auth-service:5003/api/auth',
+    target: 'http://auth-service:5003',
     changeOrigin: true,
-    pathRewrite: { '^/api/auth': '' },
   }),
 );
 
 app.use(
   '/api/quiz',
   createProxyMiddleware({
-    target: 'http://quiz-service:5000/api/quiz',
+    target: 'http://quiz-service:5000',
     changeOrigin: true,
-    pathRewrite: { '^/api/quiz': '' },
   }),
 );
 
 app.use(
   '/api/tag',
   createProxyMiddleware({
-    target: 'http://quiz-service:5000/api/tag',
+    target: 'http://quiz-service:5000',
     changeOrigin: true,
-    pathRewrite: { '^/api/tag': '' },
   }),
 );
 
 app.use(
   '/api/session',
   createProxyMiddleware({
-    target: 'http://quiz-service:5000/api/session',
+    target: 'http://quiz-service:5000',
     changeOrigin: true,
-    pathRewrite: { '^/api/session': '' },
   }),
 );
 
 app.use(
   '/api/category',
   createProxyMiddleware({
-    target: 'http://quiz-service:5000/api/category',
+    target: 'http://quiz-service:5000',
     changeOrigin: true,
-    pathRewrite: { '^/api/category': '' },
   }),
 );
 
 app.use(
   '/api/question',
   createProxyMiddleware({
-    target: 'http://quiz-service:5000/api/question',
+    target: 'http://quiz-service:5000',
     changeOrigin: true,
-    pathRewrite: { '^/api/question': '' },
   }),
 );
 
 app.use(
   '/api/stats',
   createProxyMiddleware({
-    target: 'http://stats-service:5001/api/stats',
+    target: 'http://stats-service:5001',
     changeOrigin: true,
-    pathRewrite: { '^/api/stats': '' },
   }),
 );
 
 app.use(
   '/api/user',
   createProxyMiddleware({
-    target: 'http://user-service:5002/api/user',
+    target: 'http://user-service:5002',
     changeOrigin: true,
-    pathRewrite: { '^/api/user': '' },
   }),
 );
 
 app.use(
   '/api/admin',
   createProxyMiddleware({
-    target: 'http://user-service:5002/api/admin',
+    target: 'http://user-service:5002',
     changeOrigin: true,
-    pathRewrite: { '^/api/admin': '' },
   }),
 );
 
 app.use(
   '/api/password',
   createProxyMiddleware({
-    target: 'http://user-service:5002/api/password',
+    target: 'http://user-service:5002',
     changeOrigin: true,
-    pathRewrite: { '^/api/password': '' },
   }),
 );
 
