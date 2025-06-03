@@ -1,10 +1,18 @@
 services:
   quiz-service:
-    build: ./backend/quiz-service
+    build: 
+      context: ./backend/quiz-service
+      args:
+        APP_BANNER: "Quiz Service DEV"
+    command: npm run dev
+    volumes:
+      - ./backend/quiz-service:/app
     ports:
       - "5000:5000"
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
+      - AUTH_SERVICE_URL=http://auth-service:5003
+      - APP_BANNER=Quiz Service DEV
     depends_on:
       - mongo
     networks:
@@ -18,13 +26,20 @@ services:
       - jwt_secret
   
   auth-service:
-    build: ./backend/auth-service
+    build: 
+      context: ./backend/auth-service
+      args:
+        APP_BANNER: "Auth Service DEV"
+    command: npm run dev
+    volumes:
+      - ./backend/auth-service:/app
     ports:
       - "5003:5003"
     env_file:
       - .env
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
+      - APP_BANNER=Auth Service DEV
     depends_on:
       - mongo
     networks:
@@ -38,11 +53,19 @@ services:
       - jwt_secret
 
   user-service:
-    build: ./backend/user-service
+    build: 
+      context: ./backend/user-service
+      args:
+        APP_BANNER: "User Service DEV"
+    command: npm run dev
+    volumes:
+      - ./backend/user-service:/app
     ports:
       - "5002:5002"
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
+      - AUTH_SERVICE_URL=http://auth-service:5003
+      - APP_BANNER=User Service DEV
     depends_on:
       - mongo
     networks:
@@ -56,11 +79,19 @@ services:
       - jwt_secret
 
   stats-service:
-    build: ./backend/stats-service
+    build: 
+      context: ./backend/stats-service
+      args:
+        APP_BANNER: "Stats Service DEV"
+    command: npm run dev
+    volumes:
+      - ./backend/stats-service:/app
     ports:
       - "5001:5001"
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
+      - AUTH_SERVICE_URL=http://auth-service:5003
+      - APP_BANNER=Stats Service DEV
     depends_on:
       - mongo
     networks:
@@ -74,21 +105,30 @@ services:
       - jwt_secret
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+    command: npm start
+    volumes:
+      - ./frontend:/app
     ports:
-      - "3000:80"
+      - "3000:3000"
     networks:
       - quiznet
-    depends_on:
-      - quiz-service
-      - auth-service
-      - user-service
-      - stats-service
+    environment:
+      - CHOKIDAR_USEPOLLING=true
 
   proxy:
-    build: ./backend/proxy
+    build:
+      context: ./backend/proxy
+      args: 
+        APP_BANNER: "Proxy Service DEV"
+    command: npm run dev
+    volumes:
+      - ./backend/proxy:/app
     ports:
       - "3001:3001"
+    environment:
+      - APP_BANNER=Proxy Service DEV
     networks:
       - quiznet
     depends_on:
