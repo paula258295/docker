@@ -6,8 +6,6 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
       - JWT_SECRET=supersecretkey
-      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
-      - GOOGLE_CLIENT_SECRET=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
     depends_on:
       - mongo
     networks:
@@ -20,8 +18,6 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
       - JWT_SECRET=supersecretkey
-      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
-      - GOOGLE_CLIENT_SECRET=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
     depends_on:
       - mongo
     networks:
@@ -34,8 +30,6 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
       - JWT_SECRET=supersecretkey
-      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
-      - GOOGLE_CLIENT_SECRET=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
     depends_on:
       - mongo
     networks:
@@ -48,8 +42,6 @@ services:
     environment:
       - MONGO_URI=mongodb://mongo:27017/authdb
       - JWT_SECRET=supersecretkey
-      - GOOGLE_CLIENT_ID=1099272072939-4msjkm37totc6h3o59bp9jt4pit98mh0.apps.googleusercontent.com
-      - GOOGLE_CLIENT_SECRET=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
     depends_on:
       - mongo
     networks:
