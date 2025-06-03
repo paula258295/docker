@@ -1,20 +1,15 @@
-FROM node:18-alpine AS build
-
-WORKDIR /app
-
-COPY package*.json ./
-RUN npm install --production
-
-COPY . .
-
 FROM node:18-alpine
 
 WORKDIR /app
 
-COPY --from=build /app /app
+ARG APP_BANNER="Quiz App"
+ENV APP_BANNER=$APP_BANNER
 
-ENV NODE_ENV=production
+COPY package*.json ./
+RUN npm install
+
+COPY . .
 
 EXPOSE 5002
 
-CMD ["node", "app.js"]
+CMD echo "$APP_BANNER" && npm run dev

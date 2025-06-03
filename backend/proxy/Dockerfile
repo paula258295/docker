@@ -2,6 +2,9 @@ FROM node:18-alpine
 
 WORKDIR /app
 
+ARG APP_BANNER="Proxy Service"
+ENV APP_BANNER=$APP_BANNER
+
 COPY package*.json ./
 RUN npm install
 
@@ -9,4 +12,4 @@ COPY . .
 
 EXPOSE 3001
 
-CMD ["node", "proxy-server.js"]
+CMD echo "$APP_BANNER" && npm run dev

@@ -7,7 +7,8 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "dev": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +16,7 @@
   "type": "commonjs",
   "devDependencies": {
     "jest": "^29.7.0",
+    "nodemon": "^3.1.10",
     "supertest": "^7.1.1"
   },
   "dependencies": {
