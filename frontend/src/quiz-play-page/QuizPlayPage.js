@@ -135,14 +135,24 @@ export default function QuizPlayPage({ onStatsUpdate }) {
           {questions.map(q => {
             const userAnswer = answers[q._id];
             const correct = q.correctAnswers;
+            const correctFiltered = Array.isArray(correct)
+              ? correct.filter(x => x !== "")
+              : correct;
+
+            const userAnswerFiltered = Array.isArray(userAnswer)
+              ? userAnswer.filter(x => x !== "")
+              : userAnswer;
+
             const isCorrect =
               q.type === "multiple"
-                ? Array.isArray(userAnswer) &&
-                  Array.isArray(correct) &&
-                  userAnswer.length === correct.length &&
-                  userAnswer.slice().sort().every((v, i) => v === correct.slice().sort()[i])
-                : userAnswer === correct[0];
-
+                ? Array.isArray(userAnswerFiltered) &&
+                  Array.isArray(correctFiltered) &&
+                  userAnswerFiltered.length === correctFiltered.length &&
+                  userAnswerFiltered.slice().sort().every(
+                    (v, i) => v === correctFiltered.slice().sort()[i]
+                  )
+                : userAnswer === correctFiltered[0];
+                
             return (
               <li key={q._id} className="quiz-play-answer-li">
                 <b>{q.text}</b>
@@ -156,7 +166,9 @@ export default function QuizPlayPage({ onStatsUpdate }) {
                   <div>
                     Correct answer:{" "}
                     <span style={{ color: "green" }}>
-                      {Array.isArray(correct) ? correct.join(", ") : correct[0]}
+                      {Array.isArray(correct)
+                        ? correct.filter(x => x !== "").join(", ")
+                        : correct[0]}
                     </span>
                   </div>
                 )}

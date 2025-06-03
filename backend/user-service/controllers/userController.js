@@ -101,9 +101,14 @@ exports.requestResetPassword = async (req, res, next) => {
       subject: 'Password Reset',
       html: `<p>Click to reset: <a href="${resetLink}">${resetLink}</a></p>`,
     });
-    console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
-
-    res.json({ message: 'Reset link sent if email exists.' });
+    // console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
+    console.log('RESET LINK:', resetLink);
+    // res.json({ message: 'Reset link sent if email exists.' });
+    res.json({
+      message: 'Reset link sent if email exists.',
+      resetLink: resetLink,
+      previewUrl: nodemailer.getTestMessageUrl(info)
+    });
   } catch (err) {
     next(err);
   }

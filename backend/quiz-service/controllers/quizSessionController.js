@@ -65,8 +65,8 @@ exports.finishSession = async (req, res, next) => {
         Array.isArray(userAnswer.answer) &&
         Array.isArray(q.correctAnswers)
       ) {
-        const a1 = [...userAnswer.answer].sort();
-        const a2 = [...q.correctAnswers].sort();
+        const a1 = [...userAnswer.answer].filter(x => x !== '').sort();
+        const a2 = [...q.correctAnswers].filter(x => x !== '').sort();
         if (a1.length === a2.length && a1.every((v, i) => v === a2[i])) {
           score += q.points || 1;
         }
