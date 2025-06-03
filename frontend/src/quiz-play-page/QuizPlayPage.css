@@ -123,3 +123,15 @@
   padding: 14px 16px;
   box-shadow: 0 1px 6px rgba(0,0,0,0.04);
 }
+
+.quiz-play-hint {
+  color: #888;
+  font-style: italic;
+  margin-top: 8px;
+}
+.quiz-play-hint-btn {
+  margin-left: 10px;
+  font-size: 0.9em;
+  padding: 2px 8px;
+  cursor: pointer;
+}

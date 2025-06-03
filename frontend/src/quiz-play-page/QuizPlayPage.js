@@ -13,12 +13,12 @@ export default function QuizPlayPage({ onStatsUpdate }) {
   const [error, setError] = useState(null);
   const [showAnswers, setShowAnswers] = useState(false);
   const [sessionId, setSessionId] = useState(null);
+  const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
     const token = localStorage.getItem("token");
     Promise.all([
-      // fetch(`http://localhost:3001/api/quiz/${quizId}`)
       fetch(`http://localhost:3001/api/quiz/${quizId}`, {
         headers: token ? { Authorization: "Bearer " + token } : {}
       })
@@ -47,6 +47,10 @@ export default function QuizPlayPage({ onStatsUpdate }) {
 
     return () => { isMounted = false; };
   }, [quizId]);
+
+  useEffect(() => {
+    setShowHint(false);
+  }, [current]);
 
   if (loading) return <div className="quiz-play-loading">Loading quiz...</div>;
   if (!quiz) return <div className="quiz-play-error">Quiz not found</div>;
@@ -186,10 +190,27 @@ export default function QuizPlayPage({ onStatsUpdate }) {
     <div className="quiz-play-page">
       <h2 className="quiz-play-title">{quiz.title}</h2>
       <div className="quiz-play-question-header">
-        <b>Pytanie {current + 1} z {questions.length}</b>
+        <b>{current + 1} / {questions.length}</b>
       </div>
       <div className="quiz-play-question-text">
         <b>{q.text}</b>
+        {q.hint && (
+          <>
+            <button
+              type="button"
+              className="quiz-play-hint-btn"
+              onClick={() => setShowHint(h => !h)}
+              style={{ marginLeft: 10 }}
+            >
+              {showHint ? "Ukryj podpowiedź" : "Pokaż podpowiedź"}
+            </button>
+            {showHint && (
+              <div className="quiz-play-hint">
+                <i>Hint: {q.hint}</i>
+              </div>
+            )}
+          </>
+        )}
       </div>
       <form className="quiz-play-form">
         {q.options.map((opt, i) => (
