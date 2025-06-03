@@ -7,7 +7,10 @@ exports.createQuestion = async (req, res, next) => {
     return res.status(400).json({ errors: errors.array() });
 
   try {
-    const question = new Question(req.body);
+    const question = new Question({
+      ...req.body,
+      points: Number(req.body.points) || 1
+    });
     await question.save();
     res.status(201).json({ message: 'Question created', question });
   } catch (err) {
