@@ -65,9 +65,11 @@ passport.deserializeUser(async (id, done) => {
 
 app.use('/api/auth', authRoutes);
 
+app.get('/', (req, res) => res.send('OK'));
+
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5003;
+const PORT = process.env.APP_PORT || 5003;
 connectDB().then(() => {
   app.listen(PORT, () => console.log(`Auth Service running on port ${PORT}`));
 });

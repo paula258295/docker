@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken');
 const authController = require('../controllers/authController');
 const passport = require('passport');
 const { body, validationResult } = require('express-validator');
-
+const getJwtSecret = require('../getJwtSecret');
 const router = express.Router();
 
 router.post(
@@ -72,7 +72,7 @@ router.post('/validate', (req, res) => {
   }
   const token = authHeader.split(' ')[1];
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, getJwtSecret());
     res.json({ valid: true, user: decoded });
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
@@ -101,7 +101,7 @@ router.get(
   (req, res) => {
     const token = jwt.sign(
       { userId: req.user._id, role: req.user.role },
-      process.env.JWT_SECRET,
+      getJwtSecret(),
       { expiresIn: '1d' },
     );
     res.redirect(`http://localhost:3000/social-login?token=${token}`);

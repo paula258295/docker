@@ -3,6 +3,8 @@ FROM node:18-alpine
 WORKDIR /app
 
 ARG APP_BANNER="Quiz App"
+ARG APP_PORT=5000
+
 ENV APP_BANNER=$APP_BANNER
 
 COPY package*.json ./
@@ -10,6 +12,8 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 5001
+EXPOSE ${APP_PORT}
+
+RUN which curl
 
 CMD echo "$APP_BANNER" && npm run dev

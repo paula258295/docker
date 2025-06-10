@@ -83,6 +83,8 @@ app.use(
   }),
 );
 
+app.get('/', (req, res) => res.send('OK'));
+
 app.use((err, req, res, next) => {
   console.error('Proxy error:', err);
   res.status(502).json({ message: 'Proxy error', error: err.message });

@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.APP_PORT || 5002;
 connectDB().then(() => {
   app.listen(PORT, () => console.log(`User Service running on port ${PORT}`));
 });
