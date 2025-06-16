@@ -14,6 +14,4 @@ COPY . .
 
 EXPOSE ${APP_PORT}
 
-RUN which curl
-
 CMD echo "$APP_BANNER" && npm run dev

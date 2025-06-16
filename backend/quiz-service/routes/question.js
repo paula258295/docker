@@ -9,7 +9,7 @@ router.post(
   auth,
   [
     body('quiz').notEmpty(),
-    body('type').isIn(['single', 'multiple', 'boolean', 'open']),
+    body('type').isIn(['single', 'multiple', 'boolean']),
     body('text').notEmpty(),
     body('points').isInt({ min: 1 }),
   ],

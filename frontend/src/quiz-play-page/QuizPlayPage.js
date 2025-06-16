@@ -14,6 +14,7 @@ export default function QuizPlayPage({ onStatsUpdate }) {
   const [showAnswers, setShowAnswers] = useState(false);
   const [sessionId, setSessionId] = useState(null);
   const [showHint, setShowHint] = useState(false);
+  const [sessionData, setSessionData] = useState(null);
 
   useEffect(() => {
     let isMounted = true;
@@ -21,8 +22,7 @@ export default function QuizPlayPage({ onStatsUpdate }) {
     Promise.all([
       fetch(`http://localhost:3001/api/quiz/${quizId}`, {
         headers: token ? { Authorization: "Bearer " + token } : {}
-      })
-        .then(res => res.json()),
+      }).then(res => res.json()),
       fetch(`http://localhost:3001/api/question?quiz=${quizId}`).then(res => res.json())
     ]).then(([quizData, questionsData]) => {
       if (isMounted) {
@@ -43,10 +43,47 @@ export default function QuizPlayPage({ onStatsUpdate }) {
       .then(res => res.json())
       .then(data => {
         if (data._id) setSessionId(data._id);
+        setSessionData(data);
       });
 
     return () => { isMounted = false; };
   }, [quizId]);
+
+  useEffect(() => {
+    if (!sessionData || questions.length === 0) return;
+
+    if (sessionData.answers && sessionData.answers.length > 0) {
+      const answersObj = {};
+      sessionData.answers.forEach(a => {
+        answersObj[a.question] = a.answer;
+      });
+      setAnswers(answersObj);
+
+      if (sessionData.answers.length >= questions.length) {
+        setCurrent(questions.length - 1);
+      } else {
+        setCurrent(sessionData.answers.length);
+      }
+    }
+  }, [sessionData, questions]);
+
+
+  useEffect(() => {
+    if (!sessionId) return;
+    if (Object.keys(answers).length === 0) return;
+
+    fetch(`http://localhost:3001/api/session/${sessionId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify({
+        answers: Object.entries(answers).map(([question, answer]) => ({ question, answer }))
+      })
+    });
+  }, [answers, sessionId]);
+
 
   useEffect(() => {
     setShowHint(false);

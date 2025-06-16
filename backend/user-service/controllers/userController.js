@@ -96,14 +96,8 @@ exports.requestResetPassword = async (req, res, next) => {
       subject: 'Password Reset',
       html: `<p>Click to reset: <a href="${resetLink}">${resetLink}</a></p>`,
     });
-    await transporter.sendMail({
-      to: email,
-      subject: 'Password Reset',
-      html: `<p>Click to reset: <a href="${resetLink}">${resetLink}</a></p>`,
-    });
-    // console.log('Preview URL: ' + nodemailer.getTestMessageUrl(info));
+
     console.log('RESET LINK:', resetLink);
-    // res.json({ message: 'Reset link sent if email exists.' });
     res.json({
       message: 'Reset link sent if email exists.',
       resetLink: resetLink,
@@ -121,15 +115,6 @@ exports.getMyStats = async (req, res, next) => {
       totalScore: user.totalScore || 0,
       quizzesCompleted: user.quizzesCompleted || 0,
     });
-  } catch (err) {
-    next(err);
-  }
-};
-
-exports.getAllUsers = async (req, res, next) => {
-  try {
-    const users = await User.find().select('-password');
-    res.json(users);
   } catch (err) {
     next(err);
   }

@@ -75,8 +75,8 @@ export default function QuestionCreate({ quizId, onQuestionCreated }) {
           quiz: quizId,
           type,
           text,
-          options: type === "boolean" ? ["True", "False"] : type === "open" ? [] : options,
-          correctAnswers: type === "open" ? [] : correctAnswers,
+          options: type === "boolean" ? ["True", "False"] : options,
+          correctAnswers: correctAnswers,
           points,
           hint,
           difficulty

@@ -23,6 +23,7 @@ app.use(
 );
 app.use(express.json());
 
+app.set('trust proxy', 1);
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'your_secret',
@@ -38,7 +39,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: '/api/auth/google/callback',
+      callbackURL: 'http://localhost:3001/api/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       let user = await User.findOne({ googleId: profile.id });
@@ -48,7 +49,13 @@ passport.use(
           email: profile.emails[0].value,
           googleId: profile.id,
           role: 'user',
+          authType: 'google',
         });
+      } else {
+        if (!user.authType) {
+          user.authType = 'google';
+          await user.save();
+        };
       }
       return done(null, user);
     },
