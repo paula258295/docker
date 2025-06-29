@@ -102,15 +102,10 @@ services:
   frontend:
     build:
       context: ./frontend
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     ports:
-      - "3000:3000"
+      - "3000:80"
     networks:
       - quiznet
-    environment:
-      - CHOKIDAR_USEPOLLING=true
     depends_on:
       proxy:
         condition: service_healthy
@@ -143,10 +138,11 @@ services:
     networks:
       - quiznet
     healthcheck:
-      test: ["CMD", "mongo", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 30s
-      timeout: 10s
-      retries: 10
+      timeout: 20s
+      retries: 15
+      start_period: 40s
 
 secrets:
   jwt_secret:
